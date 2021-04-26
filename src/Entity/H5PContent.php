@@ -136,24 +136,19 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
    * Load library used by content
    */
   protected function loadLibrary() {
-    $this->library = db_query(
-        "SELECT  title,
+    $this->library = \Drupal::database()->query("SELECT  title,
                  machine_name AS name,
                  major_version AS major,
                  minor_version AS minor,
                  embed_types,
                  fullscreen
             FROM {h5p_libraries}
-           WHERE library_id = :id",
-        [
-          ':id' => $this->get('library_id')->value
-        ])
+           WHERE library_id = :id", [
+      ':id' => $this->get('library_id')->value
+    ])
         ->fetchObject();
   }
 
-  /**
-   *
-   */
   public function getLibrary($assoc = FALSE) {
     if (empty($this->library)) {
       $this->loadLibrary();
@@ -171,9 +166,6 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
     return $this->library;
   }
 
-  /**
-   *
-   */
   public function getLibraryString() {
     if (empty($this->library)) {
       $this->loadLibrary();
@@ -182,16 +174,10 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
     return "{$this->library->name} {$this->library->major}.{$this->library->minor}";
   }
 
-  /**
-   *
-   */
   public function getLibraryId() {
     return $this->get('library_id')->value;
   }
 
-  /**
-   *
-   */
   public function isDivEmbeddable() {
     if (empty($this->library)) {
       $this->loadLibrary();
@@ -200,9 +186,6 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
     return (strpos($this->library->embed_types, 'iframe') === FALSE);
   }
 
-  /**
-   *
-   */
   protected function getExportURL() {
     $interface = H5PDrupal::getInstance();
     if (empty($interface->getOption('export', TRUE))) {
@@ -220,9 +203,6 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
     return json_decode($this->get('parameters')->value);
   }
 
-  /**
-   *
-   */
   public function getFilteredParameters() {
     if (empty($this->library)) {
       $this->loadLibrary();
@@ -292,26 +272,20 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
     return '{"params":' . $this->getFilteredParameters() . ',"metadata":' . json_encode($this->getMetadata()) . '}';
   }
 
-  /**
-   *
-   */
   public function getH5PIntegrationSettings($canUpdateEntity = FALSE) {
     if (empty($this->library)) {
       $this->loadLibrary();
     }
 
     // Load user data for content
-    $results = db_query(
-        "SELECT sub_content_id, data_id, data
+    $results = \Drupal::database()->query("SELECT sub_content_id, data_id, data
            FROM {h5p_content_user_data}
           WHERE user_id = :user_id
             AND content_main_id = :content_id
-            AND preloaded = 1",
-        [
-          ':user_id' => \Drupal::currentUser()->id(),
-          ':content_id' => $this->id(),
-        ]
-    );
+            AND preloaded = 1", [
+      ':user_id' => \Drupal::currentUser()->id(),
+      ':content_id' => $this->id(),
+    ]);
 
     $content_user_data = [
       0 => [
