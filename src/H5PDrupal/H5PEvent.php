@@ -28,7 +28,7 @@ class H5PEvent extends H5PEventBase {
     $data['user_id'] = \Drupal::currentUser()->id();
 
     // Insert into DB
-    $this->id = db_insert('h5p_events')
+    $this->id = \Drupal::database()->insert('h5p_events')
       ->fields($data)
       ->execute();
 
@@ -44,21 +44,20 @@ class H5PEvent extends H5PEventBase {
     $type = $this->type . ' ' . $this->sub_type;
 
     // Verify if counter exists
-    $current_num = db_query(
-        "SELECT num
+    $current_num = \Drupal::database()->query("SELECT num
            FROM {h5p_counters}
           WHERE type = :type
             AND library_name = :library_name
             AND library_version = :library_version
         ", array(
-          ':type' => $type,
-          ':library_name' => $this->library_name,
-          ':library_version' => $this->library_version
-        ))->fetchField();
+      ':type' => $type,
+      ':library_name' => $this->library_name,
+      ':library_version' => $this->library_version
+    ))->fetchField();
 
     if ($current_num === FALSE) {
       // Insert new counter
-      db_insert('h5p_counters')
+      \Drupal::database()->insert('h5p_counters')
           ->fields(array(
             'type' => $type,
             'library_name' => $this->library_name,
@@ -69,17 +68,16 @@ class H5PEvent extends H5PEventBase {
     }
     else {
      // Update counter with num+1
-     db_query(
-         "UPDATE {h5p_counters}
+     \Drupal::database()->query("UPDATE {h5p_counters}
              SET num = num + 1
            WHERE type = :type
              AND library_name = :library_name
              AND library_version = :library_version
          ", array(
-           ':type' => $type,
-           ':library_name' => $this->library_name,
-           ':library_version' => $this->library_version
-         ));
+       ':type' => $type,
+       ':library_name' => $this->library_name,
+       ':library_version' => $this->library_version
+     ));
     }
   }
 }
