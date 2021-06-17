@@ -3,3 +3,8 @@ h5p.admin.config.system.h5p:
   description: 'Configure H5P specific site settings.'
   parent: system.admin_config_system
   route_name: h5p.admin.config.system.h5p
+h5p.admin.library.list:
+  title: 'H5P Libraries'
+  description: 'Configure H5P libraries'
+  route_name: h5p.admin.content.h5p
+  parent: system.admin_content
