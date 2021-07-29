@@ -1892,19 +1892,19 @@ function h5p_preprocess_menu_local_task(&$variables) {
 
   static $jsAdded = false;
 
-  if ($link['path'] === 'node/%/h5p-unpublish') {
+  if (isset($link['path']) && ($link['path'] === 'node/%/h5p-unpublish')) {
     $link['localized_options']['attributes'] = array(
       'class' => array('h5p-content-hub-button', 'publishing', 'unpublish'),
     );
   }
 
-  if ($link['path'] === 'node/%/h5p-sync') {
+  if (isset($link['path']) && ($link['path'] === 'node/%/h5p-sync')) {
     $link['localized_options']['attributes'] = array(
       'class' => array('h5p-content-hub-button', 'sync'),
     );
   }
 
-  if ($link['path'] === 'node/%/h5p-waiting') {
+  if (isset($link['path']) && ($link['path'] === 'node/%/h5p-waiting')) {
     $link['localized_options']['attributes'] = array(
       'class' => array('h5p-content-hub-button', 'waiting'),
     );
