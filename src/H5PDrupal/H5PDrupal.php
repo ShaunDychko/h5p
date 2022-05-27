@@ -52,7 +52,9 @@ class H5PDrupal implements \H5PFrameworkInterface {
 
       // Prepare file storage
       $h5p_path = $interface->getOption('default_path', 'h5p');
-      $fs = new \H5PDefaultStorage(\Drupal::service('file_system')->realpath("public://{$h5p_path}"));
+      $libraries_directory = $interface->getOption('libraries_directory');
+      $library_path = $libraries_directory ? DRUPAL_ROOT . '/' . $libraries_directory . '/' : NULL;
+      $fs = new H5PDrupalFileStorage(\Drupal::service('file_system')->realpath("public://{$h5p_path}"), NULL, $library_path);
 
       // Determine if exports should be generated
       $is_export_enabled = !!$interface->getOption('export', TRUE);
@@ -94,6 +96,15 @@ class H5PDrupal implements \H5PFrameworkInterface {
   }
 
   /**
+   * Get the relative URL to the H5P libraries folder.
+   */
+  public static function getH5PLibrariesPath() {
+    $interface = self::getInstance();
+    $library_directory = $interface->getOption('libraries_directory');
+    return $library_directory ? : static::getRelativeH5PPath();
+  }
+
+  /**
    * Prepares the generic H5PIntegration settings
    */
   public static function getGenericH5PIntegrationSettings() {
@@ -116,12 +127,14 @@ class H5PDrupal implements \H5PFrameworkInterface {
     $set_finished_url = Url::fromUri('internal:/h5p-ajax/set-finished.json', ['query' => ['token' => \H5PCore::createToken('result')]])->toString(TRUE)->getGeneratedUrl();
     $content_user_data_url = Url::fromUri('internal:/h5p-ajax/content-user-data/:contentId/:dataType/:subContentId', ['query' => ['token' => \H5PCore::createToken('contentuserdata')]])->toString(TRUE)->getGeneratedUrl();
     $h5p_url = base_path() . self::getRelativeH5PPath();
+    $h5p_libraries_url = base_path() . self::getH5PLibrariesPath() . '/libraries';
 
     // Define the generic H5PIntegration settings
     $core = self::getInstance('core');
     $settings = array(
       'baseUrl' => base_path(),
       'url' => $h5p_url,
+      'urlLibraries' => $h5p_libraries_url,
       'postUserStatistics' => $user->id() > 0,
       'ajax' => array(
         'setFinished' => $set_finished_url,

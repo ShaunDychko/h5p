@@ -1,0 +1,5 @@
+services:
+  h5p.commands:
+    class: Drupal\h5p\Commands\H5pCommands
+    tags:
+      - { name: drush.command }

@@ -163,7 +163,7 @@ function h5p_library_info_build() {
       drop_library_css
     FROM {h5p_libraries}");
 
-  $libraries_prefix = '/' . H5PDrupal::getRelativeH5PPath() . '/libraries';
+  $libraries_prefix = '/' . H5PDrupal::getH5PLibrariesPath() . '/libraries';
   foreach ($h5p_libraries as $h5p_library) {
 
     $js = [];

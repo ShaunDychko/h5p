@@ -4,6 +4,7 @@ namespace Drupal\h5p\Form;
 
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\h5p\H5PDrupal\H5PDrupal;
+use Drupal\h5p\H5PLibrarySynchronizer;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -12,6 +13,11 @@ use Drupal\Core\Form\FormStateInterface;
  * Implements teh UserRegisterPrivat form.
  */
 class H5PLibraryUploadForm extends FormBase {
+
+  /**
+   * Whether to rely on the libraries directory, instead of uploads.
+   */
+  protected $hasCustomLibrariesLocation;
 
   /**
    * {@inheritdoc}
@@ -25,21 +31,27 @@ class H5PLibraryUploadForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    $form['#attributes'] = array(
-      'enctype' => 'multipart/form-data',
-      'class' => 'h5p-admin-upload-libraries-form'
-    );
+    $interface = H5PDrupal::getInstance();
 
-    $form['h5p'] = array(
-      '#title' => t('H5P'),
-      '#type' => 'file',
-      '#description' => t('Here you can upload new libraries or upload updates to existing libraries. Files uploaded here must be in the .h5p file format.')
-    );
+    $this->hasCustomLibrariesLocation = (bool) $interface->getOption('libraries_directory');
+
+    if (!$this->hasCustomLibrariesLocation) {
+      $form['#attributes'] = array(
+        'enctype' => 'multipart/form-data',
+        'class' => 'h5p-admin-upload-libraries-form'
+      );
+
+      $form['h5p'] = array(
+        '#title' => t('H5P'),
+        '#type' => 'file',
+        '#description' => t('Here you can upload new libraries or upload updates to existing libraries. Files uploaded here must be in the .h5p file format.')
+      );
+    }
 
     $form['actions']['#type'] = 'actions';
     $form['actions']['submit'] = array(
       '#type' => 'submit',
-      '#value' => t('Upload'),
+      '#value' => $this->hasCustomLibrariesLocation ? t('Sync libraries') : t('Upload'),
     );
 
     return $form;
@@ -49,15 +61,22 @@ class H5PLibraryUploadForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    $this->validateH5PFileUpload($form, $form_state);
+    if (!$this->hasCustomLibrariesLocation) {
+      $this->validateH5PFileUpload($form, $form_state);
+    }
   }
 
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $storage = H5PDrupal::getInstance('storage');
-    $storage->savePackage(NULL, NULL, TRUE);
+    if ($this->hasCustomLibrariesLocation) {
+      H5PLibrarySynchronizer::syncLibraries();
+    }
+    else {
+      $storage = H5PDrupal::getInstance('storage');
+      $storage->savePackage(NULL, NULL, TRUE);
+    }
   }
 
   function validateH5PFileUpload(array &$form, FormStateInterface $form_state, $upgradeOnly = FALSE) {
