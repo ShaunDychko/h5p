@@ -3,6 +3,7 @@
 namespace Drupal\h5p\H5PDrupal;
 
 use \H5PDefaultStorage;
+use \H5PCore;
 
 class H5PDrupalFileStorage extends H5PDefaultStorage {
 
@@ -19,6 +20,20 @@ class H5PDrupalFileStorage extends H5PDefaultStorage {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function saveLibrary($library) {
+    $dest = $this->libraryPath . '/libraries/' . H5PCore::libraryToString($library, TRUE);
+
+    // Make sure destination dir doesn't exist
+    H5PCore::deleteFileTree($dest);
+
+    // Move library folder
+    self::copyFileTree($library['uploadDirectory'], $dest);
+  }
+
+
+  /**
    * Fetch library folder and save in target directory.
    *
    * @param array $library
@@ -30,7 +45,8 @@ class H5PDrupalFileStorage extends H5PDefaultStorage {
    */
   public function exportLibrary($library, $target, $development_path = NULL) {
     $folder = \H5PCore::libraryToString($library, TRUE);
-    $srcPath = (!isset($development_path) ? $this->libraryPath . '/' . '/libraries/' . $folder : $development_path);
+
+    $srcPath = (!isset($development_path) ? \rtrim($this->libraryPath, '/') . '/libraries/' . $folder : $development_path);
     self::copyFileTree($srcPath, "{$target}/{$folder}");
   }
 

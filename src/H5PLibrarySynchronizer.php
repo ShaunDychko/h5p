@@ -113,7 +113,22 @@ class H5PLibrarySynchronizer {
       $h5p_drupal->clearFilteredParameters($library_ids);
     }
 
-    // @todo: logging
+    // Handle deletions.
+    $deleted = 0;
+    $existing = $h5p_drupal->loadLibraries();
+    foreach ($existing as $library_versions) {
+      foreach ($library_versions as $library) {
+        $key = $library->name . '-' . $library->major_version . '.' . $library->minor_version;
+        if (!array_key_exists($key, $libraries)) {
+          $h5p_drupal->deleteLibrary($library->id);
+        }
+      }
+    }
 
+    // Log results.
+    \Drupal::messenger()->addStatus(t('@added_count new libraries added, @deleted_count deleted.', [
+      '@added_count' => $new_ones,
+      '@deleted_count' => $deleted,
+    ]));
   }
 }

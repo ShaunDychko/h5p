@@ -812,7 +812,7 @@ class H5PDrupal implements \H5PFrameworkInterface {
       [':id' => $libraryId]
     )->fetchObject();
 
-    // Delete files
+    // Delete files.
     \H5PCore::deleteFileTree(self::getRelativeH5PPath() . "/libraries/{$library->machine_name}-{$library->major_version}.{$library->minor_version}");
 
     // Delete data in database (won't delete content)
