@@ -26,7 +26,7 @@ class H5PEmbed extends ControllerBase {
       ],
     ];
 
-    $h5p_module_path = drupal_get_path('module', 'h5p');
+    $h5p_module_path = \Drupal::service('extension.list.module')->getPath('h5p');
 
     // Load requested content
     $h5p_content = H5PContent::load($id);
