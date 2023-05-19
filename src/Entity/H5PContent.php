@@ -246,7 +246,7 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
   public function getMetadata() {
     $metadata = [
       'title' => $this->get('title')->value,
-      'authors' => json_decode($this->get('authors')->value),
+      'authors' => json_decode($this->get('authors')->value ?? ''),
       'source' => $this->get('source')->value,
       'yearFrom' => $this->get('year_from')->value,
       'yearTo' => $this->get('year_to')->value,
