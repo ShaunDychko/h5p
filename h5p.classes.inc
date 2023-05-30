@@ -1248,4 +1248,20 @@ class H5PDrupal implements H5PFrameworkInterface {
 
     return true;
   }
+
+  /**
+   * Callback for reset hub data
+   *
+   * @return void
+   */
+  public function resetHubOrganizationData() {
+    variable_set('hub_secret', '');
+    db_update('h5p_nodes')
+      ->fields(array(
+        'content_hub_id' => null,
+        'synced' => null,
+        'shared' => 0,
+      ))
+      ->execute();
+  }
 }
