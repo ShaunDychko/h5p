@@ -195,14 +195,14 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
     }
 
     $h5p_path = $interface->getOption('default_path', 'h5p');
-    return file_create_url("public://{$h5p_path}/exports/interactive-content-" . $this->id() . '.h5p');
+    return \Drupal::service('file_url_generator')->generateAbsoluteString("public://{$h5p_path}/exports/interactive-content-" . $this->id() . '.h5p');
   }
 
   /**
    * Only use for data comparison. Must not be used for content display.
    */
   public function getParameters() {
-    return json_decode($this->get('parameters')->value);
+    return json_decode($this->get('parameters')->value ?? '');
   }
 
   /**
@@ -246,7 +246,7 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
   public function getMetadata() {
     $metadata = [
       'title' => $this->get('title')->value,
-      'authors' => json_decode($this->get('authors')->value),
+      'authors' => json_decode($this->get('authors')->value ?? ''),
       'source' => $this->get('source')->value,
       'yearFrom' => $this->get('year_from')->value,
       'yearTo' => $this->get('year_to')->value,
@@ -255,7 +255,7 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
       'licenseExtras' => $this->get('license_extras')->value,
       'authorComments' => $this->get('author_comments')->value,
       'defaultLanguage' => $this->get('default_language')->value,
-      'changes' => json_decode($this->get('changes')->value),
+      'changes' => json_decode($this->get('changes')->value ?? ''),
     ];
     foreach ($metadata as $key => $data) {
       if (is_null($data)) {
@@ -307,7 +307,7 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
     $filtered_parameters = $this->getFilteredParameters();
     $display_options = $core->getDisplayOptionsForView($this->get('disabled_features')->value, $canUpdateEntity);
 
-    $h5p_module_path = drupal_get_path('module', 'h5p');
+    $h5p_module_path = \Drupal::service('extension.list.module')->getPath('h5p');
     $embed_url = Url::fromUri('internal:/h5p/' . $this->id() . '/embed', ['absolute' => TRUE])->toString(TRUE)->getGeneratedUrl();
     $resizer_url = Url::fromUri('internal:/' . $h5p_module_path . '/vendor/h5p/h5p-core/js/h5p-resizer.js', ['absolute' => TRUE, 'language' => FALSE])->toString(TRUE)->getGeneratedUrl();
     $metadata = $this->getMetadata();

@@ -66,7 +66,7 @@ class H5PEditorAJAXController extends ControllerBase {
 
     $editor = H5PEditorUtilities::getInstance();
     $editor->ajax->action(\H5PEditorEndpoints::SINGLE_LIBRARY, $machine_name,
-      $major_version, $minor_version, $language, H5PDrupal::getRelativeH5PPath(), '', filter_input(INPUT_GET, 'default-language')
+	    $major_version, $minor_version, $language, H5PDrupal::getRelativeH5PPath(), filter_input(INPUT_GET, 'default-language')
     );
 
     // Log library loaded

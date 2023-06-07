@@ -250,7 +250,7 @@ function _h5p_recursive_unlink($file, $connection) {
   } elseif (file_exists($file)) {
 
     // Get file from file_managed if it exists
-    $file_uri = file_build_uri(substr($file, strpos($file, 'h5p/'), strlen($file)));
+    $file_uri = \Drupal::service('stream_wrapper_manager')->normalizeUri(\Drupal::config('system.file')->get('default_scheme') . ('://' . substr($file, strpos($file, 'h5p/'), strlen($file))));
     $fid = $connection
       ->query("SELECT fid FROM {file_managed} WHERE uri = :path", array(':path' => $file_uri))
       ->fetchField();

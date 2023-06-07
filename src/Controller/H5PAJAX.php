@@ -112,7 +112,7 @@ class H5PAJAX extends ControllerBase {
       ->fields($fields)
       ->execute();
 
-    $this->eventDispatcher->dispatch(FinishedEvent::FINISHED_EVENT, new FinishedEvent($fields));
+    $this->eventDispatcher->dispatch(new FinishedEvent($fields), FinishedEvent::FINISHED_EVENT);
 
     return new JsonResponse(['success' => TRUE]);
   }
