@@ -3,6 +3,11 @@ update h5p libraries:
   description: 'The user is allowed to update H5P libraries. Only give this permission to trusted users who knows what they are doing.'
   restrict access: TRUE
 
+administer h5p libraries:
+  title: 'Administer H5P Libraries'
+  description: 'The user is allowed to access /admin/content/h5p and respective tasks.'
+  restrict access: TRUE
+
 access all h5p results:
   title: 'Access all H5P results'
   description: 'Access all H5P results stored in the system'
