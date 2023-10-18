@@ -135,7 +135,7 @@ class H5PDrupal implements \H5PFrameworkInterface {
       'reportingIsEnabled' => ($interface->getOption('enable_lrs_content_types', FALSE) === 1) ? TRUE : FALSE,
       'libraryConfig' => $core->h5pF->getLibraryConfig(),
       'pluginCacheBuster' => '?' . \Drupal::state()->get('system.css_js_query_string', '0'),
-      'libraryUrl' => base_path() . drupal_get_path('module', 'h5p') . '/vendor/h5p/h5p-core/js',
+      'libraryUrl' => base_path() . \Drupal::service('extension.list.module')->getPath('h5p') . '/vendor/h5p/h5p-core/js',
     );
 
     if ($user->id()) {
@@ -170,7 +170,7 @@ class H5PDrupal implements \H5PFrameworkInterface {
 
     // Determine cache buster
     $cache_buster = \Drupal::state()->get('system.css_js_query_string', '0');
-    $h5p_module_path = drupal_get_path('module', 'h5p');
+    $h5p_module_path = \Drupal::service('extension.list.module')->getPath('h5p');
 
     // Add all core scripts
     foreach (\H5PCore::$scripts as $script) {
@@ -198,7 +198,7 @@ class H5PDrupal implements \H5PFrameworkInterface {
     $cssOptimizer = \Drupal::service('asset.css.collection_optimizer');
     $systemPerformance = \Drupal::config('system.performance');
     $jsAssetConfig = ['preprocess' => $systemPerformance->get('js.preprocess')];
-    $cssAssetConfig = ['preprocess' => $systemPerformance->get('css.preprocess'), 'media' => 'css'];
+    $cssAssetConfig = ['preprocess' => FALSE, 'media' => 'css'];
     $assets = ['scripts' => [], 'styles' => []];
     foreach ($scriptAssets as $jsFiles) {
       $assets['scripts'][] = self::createCachedPublicFiles($jsFiles, $jsOptimizer, $jsAssetConfig);
@@ -238,9 +238,10 @@ class H5PDrupal implements \H5PFrameworkInterface {
         'data' => $path,
       ] + $assetConfig + $defaultAssetConfig;
     }
-    $cachedAsset = $optimizer->optimize($assets);
+    $cachedAsset = $optimizer->optimize($assets, []);
 
-    return array_map(function($publicUrl){ return file_create_url($publicUrl); }, array_column($cachedAsset, 'data'));
+    return array_map(function($publicUrl){ return \Drupal::service('file_url_generator')->generateAbsoluteString($publicUrl); }, array_column($cachedAsset, 'data'));
+
   }
 
   /**

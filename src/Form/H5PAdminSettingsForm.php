@@ -27,7 +27,7 @@ class H5PAdminSettingsForm extends FormBase {
     $interface = H5PDrupal::getInstance();
     $core = H5PDrupal::getInstance('core');
 
-    $path = drupal_get_path('module', 'h5p');
+    $path = \Drupal::service('extension.list.module')->getPath('h5p');
 
     // Get server setup error messages
     $server_setup_errors = $core->checkSetupErrorMessage()->errors;

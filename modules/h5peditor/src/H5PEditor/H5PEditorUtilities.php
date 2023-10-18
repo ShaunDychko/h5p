@@ -36,7 +36,7 @@ class H5PEditorUtilities {
    */
   public static function getEditorSettings() {
     $contentValidator = H5PDrupal::getInstance('contentvalidator');
-    $h5p_module_rel      = base_path() . drupal_get_path('module', 'h5p');
+    $h5p_module_rel      = base_path() . \Drupal::service('extension.list.module')->getPath('h5p');
 
     $settings = [
       'filesPath'          => base_path() . H5PDrupal::getRelativeH5PPath(),
@@ -63,7 +63,7 @@ class H5PEditorUtilities {
    * @return array Js and css for showing the editor
    */
   private static function getEditorAssets() {
-    $h5p_module_rel = base_path() . drupal_get_path('module', 'h5p');
+    $h5p_module_rel = base_path() . \Drupal::service('extension.list.module')->getPath('h5p');
     $corePath   = "{$h5p_module_rel}/vendor/h5p/h5p-core/";
     $editorPath = "{$h5p_module_rel}/vendor/h5p/h5p-editor/";
 
@@ -122,7 +122,7 @@ class H5PEditorUtilities {
   private static function getTranslationFilePath() {
     $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
-    $h5p_module_rel = drupal_get_path('module', 'h5p');
+    $h5p_module_rel = \Drupal::service('extension.list.module')->getPath('h5p');
     $languageFolder = "{$h5p_module_rel}/vendor/h5p/h5p-editor/language";
     $defaultLanguage = "{$languageFolder}/en.js";
     $chosenLanguage = "{$languageFolder}/{$language}.js";

@@ -27,7 +27,7 @@
   // Init editors
   Drupal.behaviors.H5PEditor = {
     attach: function (context, settings) {
-      $('.h5p-editor', context).once('H5PEditor').each(function () {
+      $(once('H5PEditor','.h5p-editor', context)).each(function () {
         H5PEditor.init();
 
         // Grab data values specifc for editor instance
@@ -102,7 +102,7 @@
     },
     detach: function (context, settings, trigger) {
       if (trigger === 'serialize') {
-        $('.h5p-editor-iframe', context).once('H5PEditor').each(function () {
+        $(once('H5PEditor','.h5p-editor-iframe', context)).each(function () {
           for (var i = 0; i < submitHandlers.length; i++) {
             if (submitHandlers[i].element === this) {
               // Trigger submit handler
