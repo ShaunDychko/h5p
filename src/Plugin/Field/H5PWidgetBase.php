@@ -2,6 +2,7 @@
 
 namespace Drupal\h5p\Plugin\Field;
 
+use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -140,7 +141,7 @@ abstract class H5PWidgetBase extends WidgetBase {
    */
   private static function doNewRevision(FormStateInterface $form_state) {
     $form_object = $form_state->getFormObject();
-    if (!($form_object instanceof \Drupal\Core\Entity\EntityFormInterface)) {
+    if (!($form_object instanceof EntityFormInterface)) {
       // Not an entity form, nothing to alter.
       return FALSE;
     }

@@ -43,7 +43,7 @@ class H5PContentUpgradeForm extends FormBase {
 
     $contents_plural = \Drupal::translation()->formatPlural($contents, '1 content instance', '@count content instances');
     $returnLink = Link::fromTextAndUrl(t('Return'), Url::fromUri('internal:/admin/content/h5p/'))->toString();
-    $h5p_module_rel = base_path() . drupal_get_path('module', 'h5p');
+    $h5p_module_rel = base_path() . \Drupal::service('extension.list.module')->getPath('h5p');
     $settings = [
       'libraryInfo' => [
         'message' => t('You are about to upgrade %num. Please select upgrade version.', ['%num' => $contents_plural]),
