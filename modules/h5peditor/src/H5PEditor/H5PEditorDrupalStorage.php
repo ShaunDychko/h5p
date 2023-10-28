@@ -127,7 +127,7 @@ class H5PEditorDrupalStorage implements \H5peditorStorage {
           $library->title = $details->title;
           $library->runnable = $details->runnable;
           $library->restricted = $super_user ? FALSE : ($details->restricted === '1' ? TRUE : FALSE);
-          $library->metadataSettings = json_decode($details->metadata_settings);
+          $library->metadataSettings = json_decode($details->metadata_settings ?? '');
           $librariesWithDetails[] = $library;
         }
       }
@@ -153,7 +153,7 @@ class H5PEditorDrupalStorage implements \H5peditorStorage {
       // Convert result object properties to camelCase.
       $library = \H5PCore::snakeToCamel($library, true);
 
-      $library->metadataSettings = json_decode($library->metadataSettings);
+      $library->metadataSettings = json_decode($library->metadataSettings ?? '');
 
       // Make sure we only display the newest version of a library.
       foreach ($libraries as $existingLibrary) {
