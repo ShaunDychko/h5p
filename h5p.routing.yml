@@ -12,7 +12,7 @@ h5p.admin.content.h5p:
     _controller: '\Drupal\h5p\Controller\H5PLibraryAdmin::libraryList'
     _title: 'H5P Library List'
   requirements:
-    _permission: 'administer site configuration'
+    _permission: 'administer h5p libraries'
 
 #h5p.admin.content.h5p.libraries.details:
 #  path: '/admin/content/h5p/libraries/{library_id}'
@@ -20,7 +20,7 @@ h5p.admin.content.h5p:
 #    _controller: '\Drupal\h5p\Controller\H5PLibraryAdmin::libraryDetails'
 #    _title: 'H5P Library Details'
 #  requirements:
-#    _permission: 'administer site configuration'
+#    _permission: 'administer h5p libraries'
 #    id: \d+
 
 h5p.admin.content.h5p.libraries.upgrade-confirm:
@@ -29,7 +29,7 @@ h5p.admin.content.h5p.libraries.upgrade-confirm:
     _form: '\Drupal\h5p\Form\H5PContentUpgradeForm'
     _title_callback: '\Drupal\h5p\Controller\H5PContentUpgrade::pageTitle'
   requirements:
-    _permission: 'administer site configuration'
+    _permission: 'administer h5p libraries'
     id: \d+
 
 h5p.admin.content.h5p.libraries.upgrade:
@@ -38,7 +38,7 @@ h5p.admin.content.h5p.libraries.upgrade:
     _controller: '\Drupal\h5p\Controller\H5PContentUpgrade::upgrade'
     _title_callback: '\Drupal\h5p\Controller\H5PContentUpgrade::pageTitle'
   requirements:
-    _permission: 'administer site configuration'
+    _permission: 'administer h5p libraries'
     id: \d+
 
 h5p.admin.content.h5p.libraries.restrict:
@@ -47,7 +47,7 @@ h5p.admin.content.h5p.libraries.restrict:
     _controller: '\Drupal\h5p\Controller\H5PLibraryAdmin::restrict'
     _title: 'Restrict H5P Content'
   requirements:
-    _permission: 'administer site configuration'
+    _permission: 'administer h5p libraries'
     id: \d+
 
 h5p.admin.content.h5p.libraries.delete:
@@ -56,7 +56,7 @@ h5p.admin.content.h5p.libraries.delete:
     _form: '\Drupal\h5p\Form\H5PLibraryDeleteForm'
     _title: 'Delete H5P Library'
   requirements:
-    _permission: 'administer site configuration'
+    _permission: 'administer h5p libraries'
     id: \d+
 
 h5p.admin.content.h5p.upgrade.library:
@@ -65,7 +65,7 @@ h5p.admin.content.h5p.upgrade.library:
     _controller: '\Drupal\h5p\Controller\H5PContentUpgrade::prepareUpgrade'
     _title: 'H5P Content Upgrade Library'
   requirements:
-    _permission: 'administer site configuration'
+    _permission: 'administer h5p libraries'
     id: \d+
 
 h5p.admin.content.h5p.rebuild_cache:
@@ -74,7 +74,7 @@ h5p.admin.content.h5p.rebuild_cache:
     _controller: '\Drupal\h5p\Controller\H5PLibraryAdmin::rebuildCache'
     _title: 'H5P Rebuild Content Cache'
   requirements:
-    _permission: 'administer site configuration'
+    _permission: 'administer h5p libraries'
     id: \d+
 
 h5p.ajax.set_finished:
