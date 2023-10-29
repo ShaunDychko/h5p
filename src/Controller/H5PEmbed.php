@@ -50,7 +50,7 @@ class H5PEmbed extends ControllerBase {
     // Load dependencies
     $core = H5PDrupal::getInstance('core');
     $preloaded_dependencies = $core->loadContentDependencies($id, 'preloaded');
-    $files = $core->getDependenciesFiles($preloaded_dependencies, H5PDrupal::getRelativeH5PPath());
+    $files = $core->getDependenciesFiles($preloaded_dependencies, H5PDrupal::getH5PLibrariesPath());
 
     // Invoke any alter hooks
     $library_list = [];

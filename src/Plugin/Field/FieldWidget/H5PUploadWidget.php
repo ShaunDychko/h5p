@@ -90,6 +90,24 @@ class H5PUploadWidget extends H5PWidgetBase {
     }
     $files[0]->delete();
 
+    // Check if we have all libraries available.
+    $libraries_data = $validator->h5pC->librariesJsonData;
+    if (is_array($libraries_data) && count($libraries_data) !== 0) {
+      $missing_libraries = [];
+      foreach ($libraries_data as $key => $library_data) {
+        $library = $interface->loadLibrary($library_data['machineName'], $library_data['majorVersion'], $library_data['minorVersion']);
+        if ($library === FALSE) {
+          $missing_libraries[] = $key;
+        }
+      }
+
+      if (count($missing_libraries) !== 0) {
+        $form_state->setError($element, t("Please install the following libraries on the site: @libraries", [
+          '@libraries' => implode(', ', $missing_libraries),
+        ]));
+      }
+    }
+
     foreach ($validator->h5pC->mainJsonData['preloadedDependencies'] as $dep) {
       if ($dep['machineName'] === $validator->h5pC->mainJsonData['mainLibrary']) {
         if ($validator->h5pF->libraryHasUpgrade($dep)) {

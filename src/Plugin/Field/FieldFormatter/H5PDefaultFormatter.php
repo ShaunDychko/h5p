@@ -61,7 +61,7 @@ class H5PDefaultFormatter extends FormatterBase {
       $preloaded_dependencies = $core->loadContentDependencies($h5p_content->id(), 'preloaded');
 
       // Load dependencies
-      $files = $core->getDependenciesFiles($preloaded_dependencies, H5PDrupal::getRelativeH5PPath());
+      $files = $core->getDependenciesFiles($preloaded_dependencies, H5PDrupal::getH5PLibrariesPath());
 
       $loadpackages = [
         'h5p/h5p.content',
