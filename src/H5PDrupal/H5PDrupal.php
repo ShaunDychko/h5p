@@ -194,11 +194,11 @@ class H5PDrupal implements \H5PFrameworkInterface {
    *   Stylesheet assets.
    */
   public static function aggregatedAssets($scriptAssets, $styleAssets) {
-    $jsOptimizer = \Drupal::service('asset.js.collection_optimizer');
-    $cssOptimizer = \Drupal::service('asset.css.collection_optimizer');
+    $jsOptimizer = \Drupal::service('asset.js.collection_optimizer_legacy');
+    $cssOptimizer = \Drupal::service('asset.css.collection_optimizer_legacy');
     $systemPerformance = \Drupal::config('system.performance');
     $jsAssetConfig = ['preprocess' => $systemPerformance->get('js.preprocess')];
-    $cssAssetConfig = ['preprocess' => FALSE, 'media' => 'css'];
+    $cssAssetConfig = ['preprocess' => $systemPerformance->get('css.preprocess'), 'media' => 'all'];
     $assets = ['scripts' => [], 'styles' => []];
     foreach ($scriptAssets as $jsFiles) {
       $assets['scripts'][] = self::createCachedPublicFiles($jsFiles, $jsOptimizer, $jsAssetConfig);
@@ -228,6 +228,7 @@ class H5PDrupal implements \H5PFrameworkInterface {
       'attributes' => [],
       'version' => NULL,
       'browsers' => [],
+      'license' => FALSE,
     ];
 
     foreach ($filePaths as $index => $path) {

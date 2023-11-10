@@ -1,8 +1,9 @@
 h5peditor:
   version: 1.0
   license:
-    - name: MIT
-    - gpl-compatible: TRUE
+    name: MIT
+    url: https://h5p.org
+    gpl-compatible: TRUE
   js:
     scripts/application.js: {}
   dependencies:
