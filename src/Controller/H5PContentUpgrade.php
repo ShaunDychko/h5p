@@ -134,15 +134,15 @@ class H5PContentUpgrade extends ControllerBase {
     // Determine if any content has been skipped during the process
     $skipped = filter_input(INPUT_POST, 'skipped');
     if ($skipped !== NULL) {
-      $out->skipped = json_decode($skipped);
+      $out['skipped'] = json_decode($skipped);
       // Clean up input, only numbers
-      foreach ($out->skipped as $i => $id) {
-        $out->skipped[$i] = intval($id);
+      foreach ($out['skipped'] as $i => $id) {
+        $out['skipped'][$i] = intval($id);
       }
-      $skipped = implode(',', $out->skipped);
+      $skipped = implode(',', $out['skipped']);
     }
     else {
-      $out->skipped = array();
+      $out['skipped'] = array();
     }
 
     // Get number of contents for this library
