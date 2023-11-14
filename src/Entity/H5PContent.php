@@ -314,13 +314,16 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
     $language = isset($metadata['defaultLanguage'])
       ? $metadata['defaultLanguage']
       : 'en';
+    $title = isset($metadata['title'])
+      ? $metadata['title']
+      : 'H5P content';
 
     return array(
       'library' => $this->getLibraryString(),
       'jsonContent' => $filtered_parameters,
       'fullScreen' => $this->library->fullscreen,
       'exportUrl' => $this->getExportURL(),
-      'embedCode' => '<iframe src="' . $embed_url . '" width=":w" height=":h" frameborder="0" allowfullscreen="allowfullscreen" lang="' . $language . '"></iframe>',
+      'embedCode' => '<iframe src="' . $embed_url . '" width=":w" height=":h" frameborder="0" allowfullscreen="allowfullscreen" lang="' . $language . '" title="' . $title . '"></iframe>',
       'resizeCode' => '<script src="' . $resizer_url . '" charset="UTF-8"></script>',
       'url' => $embed_url,
       'metadata' => $this->getMetadata(),
