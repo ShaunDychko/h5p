@@ -1911,3 +1911,19 @@ function h5p_update_7123() {
     ));
   }
 }
+
+/**
+ * Add patch_version_in_folder_name to h5p_libraries
+ */
+function h5p_update_7124() {
+  if (!db_field_exists('h5p_libraries', 'patch_version_in_folder_name')) {
+    db_add_field('h5p_libraries', 'patch_version_in_folder_name', array(
+      'description' => 'Is patch version part of folder name',
+      'type'        => 'int',
+      'size'        => 'tiny',
+      'unsigned'    => true,
+      'not null'    => true,
+      'default'     => 0,
+    ));
+  }
+}

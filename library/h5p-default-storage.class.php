@@ -39,6 +39,7 @@ class H5PDefaultStorage implements \H5PFileStorage {
    *  Library properties
    */
   public function saveLibrary($library) {
+    $library['patchVersionInFolderName'] = true;
     $dest = $this->path . '/libraries/' . \H5PCore::libraryToFolderName($library);
 
     // Make sure destination dir doesn't exist
@@ -456,15 +457,13 @@ class H5PDefaultStorage implements \H5PFileStorage {
   }
 
   /**
-   * Check if upgrades script exist for library.
+   * Provide path to upgrades script (if it exists for library)
    *
-   * @param string $machineName
-   * @param int $majorVersion
-   * @param int $minorVersion
+   * @param string $libraryFolderName
    * @return string Relative path
    */
-  public function getUpgradeScript($machineName, $majorVersion, $minorVersion) {
-    $upgrades = "/libraries/{$machineName}-{$majorVersion}.{$minorVersion}/upgrades.js";
+  public function getUpgradeScript($libraryFolderName) {
+    $upgrades = "/libraries/{$libraryFolderName}/upgrades.js";
     if (file_exists($this->path . $upgrades)) {
       return $upgrades;
     }
