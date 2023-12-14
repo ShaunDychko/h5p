@@ -191,7 +191,7 @@ function h5p_admin_settings($form, &$form_state) {
   try {
     $accountInfo = $core->hubAccountInfo();
 
-    if (!$accountInfo || $accountInfo === 'Unauthenticated.') {
+    if (!$accountInfo) {
       $form['h5p_register_hub_account'] = array(
         '#type'   => 'item',
         '#title'  => t('H5P Hub Account Settings'),
@@ -993,7 +993,7 @@ function h5p_hub_registration() {
       'licenseAgreementTitle' => 'End User License Agreement (EULA)',
       'licenseAgreementDescription' => 'Please read the following agreement before proceeding with the ',
       'licenseAgreementMainText' => 'TODO',
-      'accountInfo' => !$accountInfo || $accountInfo === 'Unauthenticated.' ? null : $accountInfo,
+      'accountInfo' => $accountInfo,
     ),
   );
 
