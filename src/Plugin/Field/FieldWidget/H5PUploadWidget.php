@@ -9,6 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\h5p\H5PDrupal\H5PDrupal;
 use Drupal\h5p\Entity\H5PContent;
 use Drupal\h5p\Plugin\Field\FieldType\H5PItem;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Plugin implementation of the 'h5p_upload' widget.
@@ -22,6 +23,22 @@ use Drupal\h5p\Plugin\Field\FieldType\H5PItem;
  * )
  */
 class H5PUploadWidget extends H5PWidgetBase {
+
+  /**
+   * File system service.
+   *
+   * @param \Drupal\Core\File\FileSystemInterface
+   */
+  protected FileSystemInterface $fileSystem;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container,array $configuration,$plugin_id,$plugin_definition){
+    $instance = parent::create($container,$configuration,$plugin_id,$plugin_definition);
+    $instance->fileSystem = $container->get('file_system');
+    return $instance;
+  }
 
   /**
    * {@inheritdoc}
@@ -67,7 +84,7 @@ class H5PUploadWidget extends H5PWidgetBase {
     $interface = H5PDrupal::getInstance('interface', $file_field);
     $h5p_path = $interface->getOption('default_path', 'h5p');
     $temporary_file_path = "public://{$h5p_path}/temp/" . uniqid('h5p-');
-    \Drupal::service('file_system')->prepareDirectory($temporary_file_path, FileSystemInterface::CREATE_DIRECTORY);
+    $this->fileSystem->prepareDirectory($temporary_file_path, FileSystemInterface::CREATE_DIRECTORY);
 
     // Validate file
     $files = file_save_upload($file_field, $validators, $temporary_file_path);
@@ -78,8 +95,8 @@ class H5PUploadWidget extends H5PWidgetBase {
     }
 
     // Tell H5P Core where to look for the files
-    $interface->getUploadedH5pPath(\Drupal::service('file_system')->realpath($files[0]->getFileUri()));
-    $interface->getUploadedH5pFolderPath(\Drupal::service('file_system')->realpath($temporary_file_path));
+    $interface->getUploadedH5pPath($this->fileSystem->realpath($files[0]->getFileUri()));
+    $interface->getUploadedH5pFolderPath($this->fileSystem->realpath($temporary_file_path));
 
     // Call upon H5P Core to validate the contents of the package
     $validator = H5PDrupal::getInstance('validator', $file_field);
