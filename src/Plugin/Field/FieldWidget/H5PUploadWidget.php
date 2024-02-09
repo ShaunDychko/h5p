@@ -94,8 +94,8 @@ class H5PUploadWidget extends H5PWidgetBase {
     }
 
     // Tell H5P Core where to look for the files
-    $interface->getUploadedH5pPath(\Drupal::service('file_system')->realpath($files[0]->getFileUri()));
-    $interface->getUploadedH5pFolderPath(\Drupal::service('file_system')->realpath($temporary_file_path));
+    $interface->getUploadedH5pPath($this->fileSystem->realpath($files[0]->getFileUri()));
+    $interface->getUploadedH5pFolderPath($this->fileSystem->realpath($temporary_file_path));
 
     // Call upon H5P Core to validate the contents of the package
     $validator = H5PDrupal::getInstance('validator', $file_field);
