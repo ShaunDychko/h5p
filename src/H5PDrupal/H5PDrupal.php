@@ -291,7 +291,7 @@ class H5PDrupal implements \H5PFrameworkInterface {
   /**
    * Implements fetchExternalData
    */
-  public function fetchExternalData($url, $data = NULL, $blocking = TRUE, $stream = NULL, $fullData = FALSE, $headers = array(), $files = array(), $method = 'POST') {
+  public function fetchExternalData($url, $data = NULL, $blocking = TRUE, $stream = NULL) {
 
     $options = [];
     if (!empty($data)) {
@@ -1417,21 +1417,5 @@ class H5PDrupal implements \H5PFrameworkInterface {
         ':major' => $library['majorVersion'],
         ':minor' => $library['minorVersion']
       ])->fetchField();
-  }
-
-  public function replaceContentHubMetadataCache($metadata, $lang) {
-    // TODO: Implement replaceContentHubMetadataCache() method.
-  }
-
-  public function getContentHubMetadataCache($lang = 'en') {
-    // TODO: Implement getContentHubMetadataCache() method.
-  }
-
-  public function getContentHubMetadataChecked($lang = 'en') {
-    // TODO: Implement getContentHubMetadataChecked() method.
-  }
-
-  public function setContentHubMetadataChecked($time, $lang = 'en') {
-    // TODO: Implement setContentHubMetadataChecked() method.
   }
 }
