@@ -126,6 +126,7 @@ class H5PDefaultFormatter extends FormatterBase {
           'library' => $loadpackages,
         ],
         '#cache' => [
+          'contexts' => ['user'],
           'tags' => [
             'h5p_content:' . $h5p_content->id(),
             'h5p_content'
