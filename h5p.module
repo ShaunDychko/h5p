@@ -41,7 +41,10 @@ function h5p_library_info_build() {
       'gpl-compatible' => TRUE,
     ],
     'js' => [
-      'vendor/h5p/h5p-core/js/jquery.js' => [],
+      'vendor/h5p/h5p-core/js/jquery.js' => [
+        'minified' => TRUE,
+        'preprocess' => FALSE
+      ],
     ],
   ];
 
