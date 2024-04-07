@@ -2,10 +2,13 @@
 
 namespace Drupal\h5p\Plugin\Field\FieldFormatter;
 
-use Drupal\Core\Field\FormatterBase;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\h5p\H5PDrupal\H5PDrupal;
+use Drupal\Core\Field\FormatterBase;
 use Drupal\h5p\Entity\H5PContent;
+use Drupal\h5p\H5PDrupal\H5PDrupal;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Plugin implementation of the 'h5p_default' formatter.
@@ -22,6 +25,43 @@ use Drupal\h5p\Entity\H5PContent;
  * )
  */
 class H5PDefaultFormatter extends FormatterBase {
+
+  /**
+   * The h5p settings config.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  protected $config;
+
+  /**
+   * Constructs a H5PDefaultFormatter object.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory service.
+   * @param mixed ...$default
+   *   Default variables.
+   */
+  public function __construct(ConfigFactoryInterface $config_factory, ...$default) {
+    parent::__construct(...$default);
+
+    $this->config = $config_factory->get('h5p.settings');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $container->get('config.factory'),
+      $plugin_id,
+      $plugin_definition,
+      $configuration['field_definition'],
+      $configuration['settings'],
+      $configuration['label'],
+      $configuration['view_mode'],
+      $configuration['third_party_settings'],
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -125,16 +165,20 @@ class H5PDefaultFormatter extends FormatterBase {
           ],
           'library' => $loadpackages,
         ],
-        '#cache' => [
-          'contexts' => ['user'],
-          'tags' => [
-            'h5p_content:' . $h5p_content->id(),
-            'h5p_content'
-          ]
-        ],
       );
+
+      // Collect the cacheability metadata for the element.
+      $cacheability = CacheableMetadata::createFromObject($h5p_content)
+        ->addCacheTags(['h5p_content'])
+        ->addCacheTags($this->config->getCacheTags());
+      if (H5PDrupal::getInstance()->getOption('save_content_state', FALSE)) {
+        $cacheability->addCacheContexts(['user']);
+      }
+
+      $cacheability->applyTo($element[$delta]);
     }
 
     return $element;
   }
+
 }
