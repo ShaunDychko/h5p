@@ -246,7 +246,7 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
   public function getMetadata() {
     $metadata = [
       'title' => $this->get('title')->value,
-      'authors' => json_decode($this->get('authors')->value),
+      'authors' => json_decode($this->get('authors')->value ?? ''),
       'source' => $this->get('source')->value,
       'yearFrom' => $this->get('year_from')->value,
       'yearTo' => $this->get('year_to')->value,
@@ -255,7 +255,7 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
       'licenseExtras' => $this->get('license_extras')->value,
       'authorComments' => $this->get('author_comments')->value,
       'defaultLanguage' => $this->get('default_language')->value,
-      'changes' => json_decode($this->get('changes')->value),
+      'changes' => json_decode($this->get('changes')->value ?? ''),
     ];
     foreach ($metadata as $key => $data) {
       if (is_null($data)) {
@@ -314,13 +314,16 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
     $language = isset($metadata['defaultLanguage'])
       ? $metadata['defaultLanguage']
       : 'en';
+    $title = isset($metadata['title'])
+      ? $metadata['title']
+      : 'H5P content';
 
     return array(
       'library' => $this->getLibraryString(),
       'jsonContent' => $filtered_parameters,
       'fullScreen' => $this->library->fullscreen,
       'exportUrl' => $this->getExportURL(),
-      'embedCode' => '<iframe src="' . $embed_url . '" width=":w" height=":h" frameborder="0" allowfullscreen="allowfullscreen" lang="' . $language . '"></iframe>',
+      'embedCode' => '<iframe src="' . $embed_url . '" width=":w" height=":h" frameborder="0" allowfullscreen="allowfullscreen" lang="' . $language . '" title="' . $title . '"></iframe>',
       'resizeCode' => '<script src="' . $resizer_url . '" charset="UTF-8"></script>',
       'url' => $embed_url,
       'metadata' => $this->getMetadata(),
