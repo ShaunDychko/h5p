@@ -73,7 +73,7 @@ function h5p_admin_settings($form, &$form_state) {
   _h5p_add_display_option($form['h5p_display_options'], 'h5p_icon', t('About H5P button'), variable_get('h5p_icon', TRUE));
   // TODO: Should we remove existing H5P files when export gets disabled?
 
-  $h5p_nodes_exists = db_query("SELECT 1 FROM {node} WHERE type = :type", array(':type' => 'h5p_content'))->fetchField();
+  $h5p_nodes_exists = db_query("SELECT 1 FROM {node} WHERE type = :type limit 1", array(':type' => 'h5p_content'))->fetchField();
 
   $form['h5p_revisioning'] = array(
     '#type' => 'checkbox',
