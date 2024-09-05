@@ -9,7 +9,7 @@ class H5peditor {
   );
 
   public static $styles = array(
-    'libs/darkroom.css',
+    'libs/cropper.css',
     'styles/css/h5p-hub-client.css',
     'styles/css/fonts.css',
     'styles/css/application.css',
@@ -384,7 +384,7 @@ class H5peditor {
     $libraryData->version = (object) array('major' => $library['majorVersion'], 'minor' => $library['minorVersion']);
     $libraryData->title = $library['title'];
 
-    $libraryData->upgradesScript = $this->h5p->fs->getUpgradeScript($libraryName);
+    $libraryData->upgradesScript = $this->h5p->fs->getUpgradeScript($libraryName, $library['majorVersion'], $library['minorVersion']);
     if ($libraryData->upgradesScript !== NULL) {
       // If valid add URL prefix
       $libraryData->upgradesScript = $this->h5p->url . $prefix . $libraryData->upgradesScript;

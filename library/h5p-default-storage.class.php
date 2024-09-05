@@ -138,10 +138,14 @@ class H5PDefaultStorage implements \H5PFileStorage {
    *  Folder that library resides in
    */
   public function exportLibrary($library, $target, $developmentPath=NULL) {
-    $folder = \H5PCore::libraryToFolderName($library);
+    $srcFolder = \H5PCore::libraryToFolderName($library);
+    $srcPath = ($developmentPath === NULL ? "/libraries/{$srcFolder}" : $developmentPath);
 
-    $srcPath = ($developmentPath === NULL ? "/libraries/{$folder}" : $developmentPath);
-    self::copyFileTree("{$this->path}{$srcPath}", "{$target}/{$folder}");
+    // Library folders inside the H5P zip file shall not contain patch version in the folder name
+    $library['patchVersionInFolderName'] = false;
+    $destinationFolder = \H5PCore::libraryToFolderName($library);
+
+    self::copyFileTree("{$this->path}{$srcPath}", "{$target}/{$destinationFolder}");
   }
 
   /**
@@ -457,13 +461,15 @@ class H5PDefaultStorage implements \H5PFileStorage {
   }
 
   /**
-   * Provide path to upgrades script (if it exists for library)
+   * Check if upgrades script exist for library.
    *
-   * @param string $libraryFolderName
+   * @param string $machineName
+   * @param int $majorVersion
+   * @param int $minorVersion
    * @return string Relative path
    */
-  public function getUpgradeScript($libraryFolderName) {
-    $upgrades = "/libraries/{$libraryFolderName}/upgrades.js";
+  public function getUpgradeScript($machineName, $majorVersion, $minorVersion) {
+    $upgrades = "/libraries/{$machineName}-{$majorVersion}.{$minorVersion}/upgrades.js";
     if (file_exists($this->path . $upgrades)) {
       return $upgrades;
     }

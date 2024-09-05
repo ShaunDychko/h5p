@@ -208,12 +208,14 @@ interface H5PFileStorage {
   public function hasPresave($libraryName, $developmentPath = null);
 
   /**
-   * Provide path to upgrades script (if it exists for library)
+   * Check if upgrades script exist for library.
    *
-   * @param string $libraryFolderName
+   * @param string $machineName
+   * @param int $majorVersion
+   * @param int $minorVersion
    * @return string Relative path
    */
-  public function getUpgradeScript($libraryFolderName);
+  public function getUpgradeScript($machineName, $majorVersion, $minorVersion);
 
   /**
    * Store the given stream into the given file.
