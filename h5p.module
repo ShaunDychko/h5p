@@ -845,7 +845,7 @@ function _h5p_process_shortcodes($text, $filter) {
 function _include_h5p($node) {
   $content_id = h5p_get_content_id($node);
   $embed = H5PCore::determineEmbedType($node->embed_type, $node->main_library['embedTypes']);
-  
+
   h5p_add_files_and_settings($node, $embed);
   if ($embed === 'div') {
     return '<div class="h5p-content" data-content-id="' .  $content_id . '"></div>';
@@ -1151,6 +1151,13 @@ function h5p_add_files_and_settings($node, $embed_type) {
 
   drupal_alter('h5p_scripts', $files['scripts'], $library_list, $embed_type);
   drupal_alter('h5p_styles', $files['styles'], $library_list, $embed_type);
+
+  $integration['libraryDirectories'] = [];
+  foreach ($preloaded_dependencies as $preloaded_dependency) {
+    $key = "{$preloaded_dependency['machineName']}-{$preloaded_dependency['majorVersion']}.{$preloaded_dependency['minorVersion']}";
+    $value = $key . ($preloaded_dependency['patchVersionInFolderName'] ? ".{$preloaded_dependency['patchVersion']}" : '');
+    $integration['libraryDirectories'][$key] = $value;
+  }
 
   if ($embed_type === 'div') {
     foreach ($files['scripts'] as $script) {
