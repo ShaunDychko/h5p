@@ -1239,7 +1239,7 @@ class H5PDrupal implements \H5PFrameworkInterface {
     \Drupal::service('asset.css.collection_optimizer')->deleteAll();
 
     // Reset cache buster
-    _drupal_flush_css_js();
+    \Drupal::service('asset.query_string')->reset();
 
     // Clear field view cache for ALL H5P content
     Cache::invalidateTags(['h5p_content']);
