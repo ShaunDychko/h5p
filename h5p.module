@@ -1942,7 +1942,7 @@ function h5p_publish($node, $context) {
 
   // Redirect to registration if we're not registered yet
   $core = _h5p_get_instance('core');
-  if (empty($core->h5pF->getOption('hub_secret', ''))) {
+  if ($core->hubRegistered()) {
     if (user_access('administer site configuration')) {
       drupal_goto('admin/config/system/h5p/register');
     }
