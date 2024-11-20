@@ -3733,7 +3733,7 @@ class H5PCore {
       'helpChoosingLicense' => $this->h5pF->t('Help me choose a license'),
       'shareFailed' => $this->h5pF->t('Share failed.'),
       'editingFailed' => $this->h5pF->t('Editing failed.'),
-      'shareTryAgain' => $this->h5pF->t('Something went wrong, please try to share again.'),
+      'shareTryAgain' => $this->h5pF->t('Couldn\'t communicate with the H5P Hub. Please try again later.'),
       'pleaseWait' => $this->h5pF->t('Please wait...'),
       'language' => $this->h5pF->t('Language'),
       'level' => $this->h5pF->t('Level'),
@@ -3990,7 +3990,7 @@ class H5PCore {
     }
 
     if ($accountInfo['status'] === 403) {
-      // Unauthenticated, cannot find site uuid
+      // Unauthenticated, cannot find hub secret and site uuid combination
       $this->h5pF->resetHubOrganizationData();
       return false;
     }
@@ -4600,7 +4600,7 @@ class H5PContentValidator {
     if (isset($semantics->extraAttributes)) {
       $validKeys = array_merge($validKeys, $semantics->extraAttributes); // TODO: Validate extraAttributes
     }
-    
+
     // Hack to sanitize quality name. Ideally we should not allow extraAttributes, or we must build
     // functionality for generically sanitize it.
     if (in_array('metadata', $validKeys) && isset($file->metadata)) {
@@ -4609,7 +4609,7 @@ class H5PContentValidator {
         $fileMetadata->qualityName = htmlspecialchars($fileMetadata->qualityName, ENT_QUOTES, 'UTF-8', FALSE);
       }
     }
-    
+
     $this->filterParams($file, $validKeys);
 
     if (isset($file->width)) {
