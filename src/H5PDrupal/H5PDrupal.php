@@ -194,8 +194,8 @@ class H5PDrupal implements \H5PFrameworkInterface {
    *   Stylesheet assets.
    */
   public static function aggregatedAssets($scriptAssets, $styleAssets) {
-    $jsOptimizer = \Drupal::service('asset.js.collection_optimizer_legacy');
-    $cssOptimizer = \Drupal::service('asset.css.collection_optimizer_legacy');
+    $jsOptimizer = \Drupal::service('asset.js.collection_optimizer');
+    $cssOptimizer = \Drupal::service('asset.css.collection_optimizer');
     $systemPerformance = \Drupal::config('system.performance');
     $jsAssetConfig = ['preprocess' => $systemPerformance->get('js.preprocess')];
     $cssAssetConfig = ['preprocess' => $systemPerformance->get('css.preprocess'), 'media' => 'all'];

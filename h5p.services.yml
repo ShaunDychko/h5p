@@ -1,7 +1,0 @@
-services:
-  asset.css.collection_optimizer_legacy:
-    class: Drupal\Core\Asset\CssCollectionOptimizerLazy
-    arguments: [ '@asset.css.collection_grouper', '@asset.css.optimizer', '@theme.manager', '@library.dependency_resolver', '@request_stack', '@file_system', '@config.factory', '@file_url_generator', '@datetime.time', '@language_manager']
-  asset.js.collection_optimizer_legacy:
-    class: Drupal\Core\Asset\JsCollectionOptimizerLazy
-    arguments: [ '@asset.js.collection_grouper', '@asset.js.optimizer', '@theme.manager', '@library.dependency_resolver', '@request_stack', '@file_system', '@config.factory', '@file_url_generator', '@datetime.time', '@language_manager']
