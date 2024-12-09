@@ -4,11 +4,6 @@
  * H5P hooks that allows content to be submitted and viewed on the site.
  */
 
-// Prepare autoloading of dependencies
-if (!class_exists('H5PCore')) {
-  require __DIR__ . '/vendor/autoload.php';
-}
-
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\h5p\H5PDrupal\H5PDrupal;
 
