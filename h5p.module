@@ -202,7 +202,10 @@ function h5p_library_info_build() {
             AND dependency_type = 'preloaded'",
       [':library_id' => $h5p_library->id]);
 
-    $dependencies = [];
+    // Register installed libraries dependent on content core library.
+    $dependencies = [
+      'h5p/h5p.content',
+    ];
     foreach ($h5p_dependencies as $h5p_dependency) {
       $dependencies[] = 'h5p/' . _h5p_library_machine_to_id($h5p_dependency);
     }
