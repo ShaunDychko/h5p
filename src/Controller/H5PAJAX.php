@@ -105,7 +105,7 @@ class H5PAJAX extends ControllerBase {
     }
 
     $this->database->merge('h5p_points')
-      ->key([
+      ->keys([
         'uid' => $uid,
         'content_id' => $content_id,
       ])

@@ -16,7 +16,7 @@ use Drupal\h5p\Entity\H5PContent;
  *   id = "h5p",
  *   label = @Translation("Interactive Content – H5P"),
  *   description = @Translation("This field stores the ID of an H5P Content as an integer value."),
- *   category = @Translation("Reference"),
+ *   category = "reference",
  *   default_formatter = "h5p_default",
  *   default_widget = "h5p_upload",
  * )
