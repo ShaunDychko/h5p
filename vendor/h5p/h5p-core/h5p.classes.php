@@ -1996,6 +1996,16 @@ abstract class H5PHubEndpoints {
  */
 class H5PCore {
 
+  public $url;
+
+  public $development_mode;
+
+  public $aggregateAssets;
+
+  public $fullPluginPath;
+
+  public $relativePathRegExp;
+
   public static $coreApi = array(
     'majorVersion' => 1,
     'minorVersion' => 24
@@ -3508,6 +3518,7 @@ class H5PContentValidator {
   public $h5pC;
   private $typeMap, $libraries, $dependencies, $nextWeight;
   private static $allowed_styleable_tags = array('span', 'p', 'div','h1','h2','h3', 'td');
+  public $allowedStyles;
 
   /**
    * Constructor for the H5PContentValidator

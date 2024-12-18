@@ -53,6 +53,8 @@ class H5peditor {
   private $h5p, $storage;
   public $ajax, $ajaxInterface;
 
+  public $content;
+
   /**
    * Constructor for the core editor library.
    *
