@@ -62,7 +62,7 @@ class H5PContentUpgradeForm extends FormBase {
           'version' => $library->major_version . '.' . $library->minor_version,
         ],
         'libraryBaseUrl' => Url::fromUri('internal:/admin/content/h5p/upgrade/library')->toString(),
-        'scriptBaseUrl' => "{$h5p_module_rel}/vendor/h5p/h5p-core/js/",
+        'scriptBaseUrl' => "{$h5p_module_rel}/assets/h5p-core/js/",
         'buster' => '?' . \Drupal::state()->get('system.css_js_query_string', '0'),
         'versions' => $upgrades,
         'contents' => $contents,

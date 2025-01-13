@@ -36,17 +36,18 @@ class H5PEditorUtilities {
    */
   public static function getEditorSettings() {
     $contentValidator = H5PDrupal::getInstance('contentvalidator');
-    $h5p_module_rel      = base_path() . \Drupal::service('extension.list.module')->getPath('h5p');
+    $h5p_editor_module_rel = base_path() . \Drupal::service('extension.list.module')
+        ->getPath('h5peditor');
 
     $settings = [
       'filesPath'          => base_path() . H5PDrupal::getRelativeH5PPath(),
       'fileIcon'           => [
-        'path'   => "{$h5p_module_rel}/vendor/h5p/h5p-editor/images/binary-file.png",
+        'path' => "{$h5p_editor_module_rel}/assets/h5p-editor/images/binary-file.png",
         'width'  => 50,
         'height' => 50,
       ],
       'ajaxPath'           => str_replace('%3A', ':', self::getAjaxPath()),
-      'libraryPath'        => "{$h5p_module_rel}/vendor/h5p/h5p-editor/",
+      'libraryPath' => "{$h5p_editor_module_rel}/assets/h5p-editor/",
       'copyrightSemantics' => $contentValidator->getCopyrightSemantics(),
       'metadataSemantics' => $contentValidator->getMetadataSemantics(),
       'assets'             => self::getEditorAssets(),
@@ -63,9 +64,10 @@ class H5PEditorUtilities {
    * @return array Js and css for showing the editor
    */
   private static function getEditorAssets() {
-    $h5p_module_rel = base_path() . \Drupal::service('extension.list.module')->getPath('h5p');
-    $corePath   = "{$h5p_module_rel}/vendor/h5p/h5p-core/";
-    $editorPath = "{$h5p_module_rel}/vendor/h5p/h5p-editor/";
+    $corePath = base_path() . \Drupal::service('extension.list.module')
+        ->getPath('h5p') . "/assets/h5p-core/";
+    $editorPath = base_path() . \Drupal::service('extension.list.module')
+        ->getPath('h5peditor') . "/assets/h5p-editor/";
 
     $css  = array_merge(
       self::getAssets(\H5PCore::$styles, $corePath),
@@ -122,8 +124,9 @@ class H5PEditorUtilities {
   private static function getTranslationFilePath() {
     $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
-    $h5p_module_rel = \Drupal::service('extension.list.module')->getPath('h5p');
-    $languageFolder = "{$h5p_module_rel}/vendor/h5p/h5p-editor/language";
+    $h5p_editor_module_rel = \Drupal::service('extension.list.module')
+      ->getPath('h5peditor');
+    $languageFolder = "{$h5p_editor_module_rel}/assets/h5p-editor/language";
     $defaultLanguage = "{$languageFolder}/en.js";
     $chosenLanguage = "{$languageFolder}/{$language}.js";
     $cacheBuster = self::getCacheBuster();

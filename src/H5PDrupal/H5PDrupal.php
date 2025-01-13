@@ -135,7 +135,8 @@ class H5PDrupal implements \H5PFrameworkInterface {
       'reportingIsEnabled' => ($interface->getOption('enable_lrs_content_types', FALSE) === 1) ? TRUE : FALSE,
       'libraryConfig' => $core->h5pF->getLibraryConfig(),
       'pluginCacheBuster' => '?' . \Drupal::state()->get('system.css_js_query_string', '0'),
-      'libraryUrl' => base_path() . \Drupal::service('extension.list.module')->getPath('h5p') . '/vendor/h5p/h5p-core/js',
+      'libraryUrl' => base_path() . \Drupal::service('extension.list.module')
+          ->getPath('h5p') . '/assets/h5p-core/js',
     );
 
     if ($user->id()) {
@@ -174,12 +175,12 @@ class H5PDrupal implements \H5PFrameworkInterface {
 
     // Add all core scripts
     foreach (\H5PCore::$scripts as $script) {
-      $assets[$keys[0]][] = "{$h5p_module_path}/vendor/h5p/h5p-core/{$script}?{$cache_buster}";
+      $assets[$keys[0]][] = "{$h5p_module_path}/assets/h5p-core/{$script}?{$cache_buster}";
     }
 
     // and styles
     foreach (\H5PCore::$styles as $style) {
-      $assets[$keys[1]][] = "{$h5p_module_path}/vendor/h5p/h5p-core/{$style}?{$cache_buster}";
+      $assets[$keys[1]][] = "{$h5p_module_path}/assets/h5p-core/{$style}?{$cache_buster}";
     }
 
     return $assets;

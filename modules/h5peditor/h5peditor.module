@@ -12,7 +12,8 @@
 function h5peditor_library_info_build() {
    $libraries = [];
 
-   $h5p_module_path = \Drupal::service('extension.list.module')->getPath('h5p');
+  $h5p_editor_module_path = \Drupal::service('extension.list.module')
+    ->getPath('h5peditor');
    $libraries['h5peditor.assets'] = [
      'version' => '1.0',
      'license' => [
@@ -21,7 +22,7 @@ function h5peditor_library_info_build() {
        'gpl-compatible' => TRUE,
      ],
      'js' => [
-       "/{$h5p_module_path}/vendor/h5p/h5p-editor/scripts/h5peditor-editor.js" => [],
+       "/{$h5p_editor_module_path}/assets/h5p-editor/scripts/h5peditor-editor.js" => [],
      ],
      'dependencies' => [
        'h5p/h5p.content',

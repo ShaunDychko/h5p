@@ -7,6 +7,9 @@ Create, share and reuse interactive HTML5 content on your site.
 
 A comprehensive tutorial for how to install and manage dependencies can be found at [drupal.org](https://www.drupal.org/docs/develop/using-composer/using-composer-to-manage-drupal-site-dependencies).
 
+Assets, such as CSS and JS files, from the `h5p/h5p-core` and `h5p/h5p-editor` projects must
+be copied into the module folders using the provided Drush command `drush h5p:copy-assets`.
+
 ### Download
 If you are not requiring H5P from Composer you may download it from [the drupal project page](https://www.drupal.org/project/h5p).
 The latest development version may be found on git.

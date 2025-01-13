@@ -4,11 +4,6 @@
  * H5P hooks that allows content to be submitted and viewed on the site.
  */
 
-// Prepare autoloading of dependencies
-if (!class_exists('H5PCore')) {
-  require __DIR__ . '/vendor/autoload.php';
-}
-
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\h5p\H5PDrupal\H5PDrupal;
 
@@ -41,9 +36,9 @@ function h5p_library_info_build() {
       'gpl-compatible' => TRUE,
     ],
     'js' => [
-      'vendor/h5p/h5p-core/js/jquery.js' => [
+      'assets/h5p-core/js/jquery.js' => [
         'minified' => TRUE,
-        'preprocess' => FALSE
+        'preprocess' => FALSE,
       ],
     ],
   ];
@@ -83,13 +78,13 @@ function h5p_library_info_build() {
     if ($script === 'js/jquery.js') {
       continue;
     }
-    $js = "vendor/h5p/h5p-core/$script";
+    $js = "assets/h5p-core/$script";
     $libraries['h5p.content']['js'][$js] = [];
   }
 
   // Register core CSS needed when viewing H5P content
   foreach (H5PCore::$styles as $style) {
-    $css = "vendor/h5p/h5p-core/$style";
+    $css = "assets/h5p-core/$style";
     $libraries['h5p.content']['css']['base'][$css] = [];
   }
 
@@ -103,13 +98,13 @@ function h5p_library_info_build() {
     ],
     'css' => [
       'base' => [
-        'vendor/h5p/h5p-core/styles/h5p.css' => [],
-        'vendor/h5p/h5p-core/styles/h5p-admin.css' => [],
-      ]
+        'assets/h5p-core/styles/h5p.css' => [],
+        'assets/h5p-core/styles/h5p-admin.css' => [],
+      ],
     ],
     'js' => [
       'js/h5p-admin-integration.js' => [],
-      'vendor/h5p/h5p-core/js/h5p-utils.js' => [],
+      'assets/h5p-core/js/h5p-utils.js' => [],
     ],
     'dependencies' => [
       'h5p/h5p.integration',
@@ -126,7 +121,7 @@ function h5p_library_info_build() {
       'gpl-compatible' => TRUE,
     ],
     'js' => [
-      'vendor/h5p/h5p-core/js/h5p-library-list.js' => [],
+      'assets/h5p-core/js/h5p-library-list.js' => [],
     ],
     'dependencies' => [
       'h5p/h5p.admin',
@@ -141,8 +136,8 @@ function h5p_library_info_build() {
       'url' => 'https://h5p.org',
     ],
     'js' => [
-      'vendor/h5p/h5p-core/js/h5p-version.js' => [],
-      'vendor/h5p/h5p-core/js/h5p-content-upgrade.js' => [],
+      'assets/h5p-core/js/h5p-version.js' => [],
+      'assets/h5p-core/js/h5p-content-upgrade.js' => [],
     ],
     'dependencies' => [
       'h5p/h5p.admin',
@@ -151,7 +146,7 @@ function h5p_library_info_build() {
 
   /*$libraries['h5p.admin.library.details'] = [
     'js' => [
-      'vendor/h5p/h5p-core/js/h5p-library-details.js' => [],
+      'assets/h5p-core/js/h5p-library-details.js' => [],
     ],
     'dependencies' => [
       'h5p/h5p.admin',

@@ -309,7 +309,10 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
 
     $h5p_module_path = \Drupal::service('extension.list.module')->getPath('h5p');
     $embed_url = Url::fromUri('internal:/h5p/' . $this->id() . '/embed', ['absolute' => TRUE])->toString(TRUE)->getGeneratedUrl();
-    $resizer_url = Url::fromUri('internal:/' . $h5p_module_path . '/vendor/h5p/h5p-core/js/h5p-resizer.js', ['absolute' => TRUE, 'language' => FALSE])->toString(TRUE)->getGeneratedUrl();
+    $resizer_url = Url::fromUri('internal:/' . $h5p_module_path . '/assets/h5p-core/js/h5p-resizer.js', [
+      'absolute' => TRUE,
+      'language' => FALSE,
+    ])->toString(TRUE)->getGeneratedUrl();
     $metadata = $this->getMetadata();
     $language = isset($metadata['defaultLanguage'])
       ? $metadata['defaultLanguage']
