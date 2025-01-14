@@ -155,7 +155,7 @@ class H5PContentUpgrade extends ControllerBase {
       $contents = $this->database->query(
         "SELECT id, parameters AS params, title, authors, source, license,
                 license_version, license_extras, year_from, year_to, changes,
-                author_comments, default_language
+                author_comments, default_language, a11y_title
            FROM {h5p_content}
           WHERE library_id = :id
                 {$skip_query}

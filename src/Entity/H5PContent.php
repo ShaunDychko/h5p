@@ -69,6 +69,12 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
       ->setSetting('max_length', '255')
       ->setDefaultValue(NULL);
 
+    $fields['a11y_title'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Assistive Technologies label'))
+      ->setDescription(t('Accessibility title for content'))
+      ->setSetting('max_length', '255')
+      ->setDefaultValue(NULL);
+
     $fields['authors'] = BaseFieldDefinition::create('string_long')
       ->setLabel(t('Authors'))
       ->setDescription(t('List of authors in json format'))
@@ -256,6 +262,7 @@ class H5PContent extends ContentEntityBase implements ContentEntityInterface {
       'authorComments' => $this->get('author_comments')->value,
       'defaultLanguage' => $this->get('default_language')->value,
       'changes' => json_decode($this->get('changes')->value ?? ''),
+      'a11yTitle' => $this->get('a11y_title')->value,
     ];
     foreach ($metadata as $key => $data) {
       if (is_null($data)) {

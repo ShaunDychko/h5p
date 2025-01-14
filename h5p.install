@@ -977,3 +977,29 @@ function h5p_update_8004() {
   \Drupal::entityDefinitionUpdateManager()
     ->installFieldStorageDefinition('default_language', 'h5p_content', 'h5p_content', $storage_definition);
 }
+
+/**
+ * Update hook to modify the database schema to include 'a11y_title'.
+ */
+function h5p_update_8005() {
+  $schema = \Drupal::service('database')->schema();
+
+  if (!$schema->fieldExists('h5p_content', 'a11y_title')) {
+    $schema->addField('h5p_content', 'a11y_title', [
+      'description' => 'Accessibility title for content.',
+      'type' => 'varchar',
+      'length' => 255,
+      'not null' => FALSE,
+      'default' => NULL,
+    ]);
+  }
+  $storage_definition = BaseFieldDefinition::create('string')
+    ->setLabel(t('Assistive Technologies label'))
+    ->setDescription(t('Accessibility title for content'))
+    ->setSetting('max_length', '255')
+    ->setDefaultValue(NULL);
+
+  \Drupal::entityDefinitionUpdateManager()
+    ->installFieldStorageDefinition('a11y_title', 'h5p_content', 'h5p_content', $storage_definition);
+  
+}
