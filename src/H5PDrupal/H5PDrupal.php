@@ -853,10 +853,6 @@ class H5PDrupal implements \H5PFrameworkInterface {
 
     // Update metadata properties
     $metadata_fields = \H5PMetadata::toDBArray($content['metadata']);
-    if (array_key_exists('a11y_title', $metadata_fields)) {
-      // The a11y_title field does not exist in the H5PContent entity.
-      unset($metadata_fields['a11y_title']);
-    }
     foreach ($metadata_fields as $key => $value) {
       $h5p_content->set($key, $value);
     }
