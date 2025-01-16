@@ -1406,6 +1406,11 @@ class H5PDrupal implements \H5PFrameworkInterface {
    * Implements libraryHasUpgrade
    */
   public function libraryHasUpgrade($library) {
+
+    if (!is_array($library)) {
+      return FALSE;
+    }
+
     return !!\Drupal::database()->query(
       "SELECT library_id
          FROM {h5p_libraries}
